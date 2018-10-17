@@ -3,6 +3,9 @@ import request from '../utils/request';
 export function query() {
   return request('/api/users');
 }
+export function fetchAuth(vaules) {
+  return vaules
+}
 export function getLocalStorage (key) {
   return JSON.parse(localStorage.getItem(key))
 }
