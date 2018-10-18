@@ -17,10 +17,17 @@ export default {
   
     effects: {
       *fetch({ payload }, { call, put }) { 
-        console.log(payload, 555)
           const data = yield call(fetchAuth,payload) // eslint-disable-line
+        console.log(payload,data, 555)
+        
         yield put({ type: 'save', data });
-        yield put(routerRedux.push('/'))
+        if(data){
+          const delay=timeout => new Promise(resolve => setTimeout(resolve, timeout));
+          yield call(delay,1000)
+            yield put(routerRedux.push('/'))
+        }else{
+          console.log('登录失败')
+        }
       },
     },
   

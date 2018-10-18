@@ -1,5 +1,6 @@
 import dva from 'dva';
 import './index.css';
+import dvaLoading from 'dva-loading'
 
 // 1. Initialize
 const app = dva();
@@ -8,6 +9,7 @@ const app = dva();
 // app.use({});
 
 // 3. Model
+app.use(dvaLoading())
 app.model(require('./models/auth').default);
 
 // 4. Router
