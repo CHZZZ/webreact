@@ -44,7 +44,7 @@ const Login = ({
         <div style={styles.loginBody}>
           <form style={{width:'80%'}}>
             <FormItem hasFeedback>
-              {getFieldDecorator('username', {
+              {getFieldDecorator('name', {
                 rules: [
                   {
                     required: true,
@@ -53,7 +53,7 @@ const Login = ({
               })(<Input size="large" onPressEnter={handleOk} placeholder="请输入用户名" />)}
             </FormItem>
             <FormItem hasFeedback>
-              {getFieldDecorator('password', {
+              {getFieldDecorator('pwd', {
                 rules: [
                   {
                     required: true,

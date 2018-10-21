@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 // import styles from './MainLayout.css'
-import Layout from '../../components/Layout'
+import Common from '../../components/Layout'
 
 class Home extends Component {
     // constructor(props) {
@@ -9,7 +9,7 @@ class Home extends Component {
     render() {
         const { children, location } = this.props
         return (
-            <Layout location={location} children={children} />
+            <Common location={location} children={children} />
         )
     }
 }

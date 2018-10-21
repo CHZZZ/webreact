@@ -3,7 +3,8 @@ import { Route, Switch, routerRedux } from 'dva/router'
 import IndexPage from './routes/IndexPage'
 import Login from './pages/Login'
 import dynamic from 'dva/dynamic'
-import Home from './pages/Home'
+import Common from './pages/Common'
+import Echarts from './pages/Echart'
 
 const {ConnectedRouter} = routerRedux
 const routeArr = [
@@ -12,10 +13,10 @@ const routeArr = [
   component: () => IndexPage,
   models: () => [import('./models/home')]//必须是函数 返回组件
   }
-  // , {
-  // path: '/login',
-  // component: () => Login
-  // }
+  , {
+  path: '/echart',
+  component: () => Echarts
+  }
   ]
 function RouterConfig({ history, app }) {
   return (
@@ -23,12 +24,12 @@ function RouterConfig({ history, app }) {
     {/* <Router history={history} /> */}
       <Switch>
       <Route key = '/login' path = '/login' exact component={dynamic({app, component:  () => Login, models:  () => [import('./models/login')]})} />
-        <Home>
+        <Common >
         {
         routeArr.map((item, index)=>
           <Route key = {index} path = {item.path} exact component={dynamic({app, component: item.component})} />)
         }
-        </Home>
+        </Common>
       </Switch>
     </ConnectedRouter >
   )

@@ -1,13 +1,16 @@
 {
   "private": true,
   "scripts": {
-    "start": "roadhog server",
+    "start": "set PORT=3000&&set BROWSER=none&&roadhog server",
     "build": "roadhog build",
     "lint": "eslint --ext .js src test",
     "precommit": "npm run lint"
   },
   "dependencies": {
+    "@antv/data-set": "^0.9.6",
     "antd": "^3.10.1",
+    "bizcharts": "^3.2.4",
+    "crypto-js": "^3.1.9-1",
     "dva": "^2.4.0",
     "dva-loading": "^2.0.5",
     "react": "^16.2.0",

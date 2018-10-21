@@ -1,42 +1,55 @@
 
-import { getLocalStorage } from '../services/auth'
+import { getLocalStorage, getAuth } from '../services/auth'
 import { routerRedux } from 'dva/router'
+// import { message } from 'antd'
 
 export default {
 
   namespace: 'auth',
 
-  state: {},
+  state: {
+    name: ''
+  },
 
   subscriptions: {
     setup({ dispatch, history }) { // eslint-disable-line
-      history.listen((location)=>{
-        const data = getLocalStorage('user')
-        if(location.pathname.indexOf('/login')){
-          if (!data) {
-            dispatch({
-              type: 'query',
-              payload: {},
-            });
-          } else {
-            dispatch({
-              type: 'querySuccess',
-              payload: {
-                user: data,
-              },
-            });
-          }
+      try{
+        const data = getLocalStorage('users')
+        if(data){
+          dispatch({
+            type: 'fetch',
+            payload: data
+          });
+        } else {
+          dispatch({
+            type: 'query',
+            payload: {},
+          });
         }
+      }catch(e){
+        localStorage.removeItem('users')
+        dispatch({
+          type: 'query',
+          payload: {},
+        });
+      }
+      history.listen((location)=>{
+
       })
     },
   },
 
   effects: {
     *fetch({ payload }, { call, put }) {  // eslint-disable-line
-      yield put({ type: 'save' });
+      try {
+        yield call(getAuth,{name:payload[0],pwd:payload[1]})
+        yield put({type:'save', payload: payload[0]})
+      }catch(e){
+        localStorage.removeItem('users')
+        yield put(routerRedux.push('/login'))
+      }
     },
-    *query ({},{call, put}){
-      console.log('12313121111111111111')
+    *query ({payload}, {put}){
       yield put(routerRedux.push('/login'))
       // const data = yield call(getAuth,{})
       //  yield put ({type:'querySuccess',payload: {user: data}})
@@ -46,7 +59,7 @@ export default {
 
   reducers: {
     save(state, action) {
-      return { ...state, ...action.payload };
+      return { ...state, name: action.payload };
     },
     querySuccess(state, action) {
       return { ...state, ...action };

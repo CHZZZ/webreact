@@ -1,5 +1,6 @@
 import { fetchAuth, setLocalStorage } from '../services/auth'
 import {routerRedux} from 'dva/router'
+import { message } from 'antd'
 
 export default {
 
@@ -17,17 +18,19 @@ export default {
   
     effects: {
       *fetch({ payload }, { call, put }) { 
-          const data = yield call(fetchAuth,payload) // eslint-disable-line
-        console.log(payload,data, 555)
-        
-        yield put({ type: 'save', data });
-        if(data){
-          const delay=timeout => new Promise(resolve => setTimeout(resolve, timeout));
-          yield call(delay,1000)
+        try {
+          const data = yield call(fetchAuth,payload)
+          if(data.data&&data.data.result===1) {
+            message.success('登录成功')
             yield put(routerRedux.push('/'))
-        }else{
-          console.log('登录失败')
+          }else {
+            localStorage.removeItem('users')
+          }
+        }catch(e){
+          localStorage.removeItem('users')
+          message.error('登录失败')
         }
+        
       },
     },
   
